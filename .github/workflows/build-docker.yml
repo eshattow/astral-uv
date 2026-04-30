@@ -202,12 +202,28 @@ jobs:
             type=sha,enable=${{ inputs.push-dev }}
 
       - name: Build and push by digest
+        id: build-riscv64-docker
+        uses: docker/build-push-action@bcafcacb16a39f128d818304e6c9c0c18556b85f # v7.1.0
+        with:
+          project: 7hd4vdzmw5 # astral-sh/uv
+          context: .
+          platforms: linux/riscv64
+          push: ${{ needs.docker-plan.outputs.push }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          provenance: mode=max
+          sbom: true
+          # TODO(zanieb): Annotations are not supported by Depot yet and are ignored
+          annotations: ${{ steps.meta.outputs.annotations }}
+
+      - name: Build and push by digest
+        if: false
         id: build
         uses: depot/build-push-action@5f3b3c2e5a00f0093de47f657aeaefcedff27d18 # v1.17.0
         with:
           project: 7hd4vdzmw5 # astral-sh/uv
           context: .
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64, linux/riscv64
           push: ${{ needs.docker-plan.outputs.push }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
@@ -333,7 +349,7 @@ jobs:
         with:
           context: .
           project: 7hd4vdzmw5 # astral-sh/uv
-          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64,linux/arm64, riscv64
           push: ${{ needs.docker-plan.outputs.push }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

@@ -1,5 +1,6 @@
 FROM --platform=$BUILDPLATFORM ubuntu:24.04@sha256:d1e2e92c075e5ca139d51a140fff46f84315c0fdce203eab2807c7e495eff4f9 AS build
 
+# bump 1
 ARG UBUNTU_SNAPSHOT=20260301T000000Z
 ARG RUSTUP_VERSION=1.28.1
 
@@ -30,6 +31,7 @@ ARG TARGETPLATFORM
 RUN case "$TARGETPLATFORM" in \
   "linux/arm64") echo "aarch64-unknown-linux-musl" > rust_target.txt ;; \
   "linux/amd64") echo "x86_64-unknown-linux-musl" > rust_target.txt ;; \
+  "linux/riscv64") echo "riscv64gc-unknown-linux-musl" > rust_target.txt ;; \
   *) exit 1 ;; \
   esac
 
