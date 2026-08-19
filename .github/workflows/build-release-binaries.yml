@@ -36,7 +36,7 @@ permissions:
 jobs:
   sdist:
     name: sdist
-    runs-on: depot-ubuntu-24.04-4
+    runs-on: ubuntu-24.04
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -406,7 +406,7 @@ jobs:
 
   linux:
     name: ${{ matrix.target }}
-    runs-on: depot-ubuntu-latest-4
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         include:
@@ -543,7 +543,7 @@ jobs:
           # PGO requires a native runner; the 32-bit ARM targets are cross-compiled.
           - target: aarch64-unknown-linux-gnu
             arch: aarch64
-            runner: depot-ubuntu-24.04-arm-8
+            runner: ubuntu-24.04-arm
             pgo: true
             # see https://github.com/astral-sh/ruff/issues/3791
             # and https://github.com/gnzlbg/jemallocator/issues/170#issuecomment-1503228963
@@ -552,12 +552,12 @@ jobs:
             manylinux: 2_28
           - target: armv7-unknown-linux-gnueabihf
             arch: armv7
-            runner: depot-ubuntu-24.04-8
+            runner: ubuntu-24.04
             pgo: false
             manylinux: 2_17
           - target: arm-unknown-linux-musleabihf
             arch: arm
-            runner: depot-ubuntu-24.04-8
+            runner: ubuntu-24.04
             pgo: false
             # Special case: armv6l is linux_armv6l, no manylinux or musllinux.
             # "auto" instead of "off" to get the cross container
@@ -684,7 +684,7 @@ jobs:
   linux-s390x:
     name: ${{ matrix.platform.target }}
     timeout-minutes: 30
-    runs-on: depot-ubuntu-latest-4
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         platform:
@@ -806,7 +806,7 @@ jobs:
   # Like `linux-arm`, but install the `gcc-powerpc64-linux-gnu` package.
   linux-powerpc:
     name: ${{ matrix.platform.target }}
-    runs-on: depot-ubuntu-24.04-4
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         platform:
@@ -923,7 +923,7 @@ jobs:
   linux-riscv64:
     name: ${{ matrix.platform.target }}
     timeout-minutes: 30
-    runs-on: depot-ubuntu-latest-4
+    runs-on: ubuntu-latest
     strategy:
       matrix:
         platform:
@@ -1041,7 +1041,7 @@ jobs:
 
   musllinux:
     name: ${{ matrix.target }}
-    runs-on: depot-ubuntu-24.04-4
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
         target:
@@ -1147,7 +1147,7 @@ jobs:
 
   musllinux-cross:
     name: ${{ matrix.platform.target }}
-    runs-on: depot-ubuntu-24.04-8
+    runs-on: ubuntu-24.04
     env:
       CARGO_TARGET_RISCV64GC_UNKNOWN_LINUX_MUSL_RUSTFLAGS: "-C target-feature=+crt-static"
     strategy:
